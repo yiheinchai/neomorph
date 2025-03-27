@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neon Finance UI - Improved</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Core Colors */
+            --bg-gradient-start: #1a1a2e; /* Deep blue/purple */
+            --bg-gradient-end: #4e1e54;   /* More distinct purple */
+            --phone-bg: #0c0c11;          /* Darker phone background */
+            --phone-bezel: #111;
+
+            /* Neon Colors */
+            --neon-orange: #ff7f00;
+            --neon-orange-glow-1: #ff9933;
+            --neon-orange-glow-2: #ffbf66;
+            --neon-pink: #ff007f;
+            --neon-pink-glow-1: #ff4da6;
+            --neon-pink-glow-2: #ff80bf;
+            --neon-red: #ff4136;
+            --neon-red-glow-1: #ff7066;
+            --neon-cyan: #00ffff;
+            --neon-cyan-glow-1: #66ffff;
+            --neon-green: #39ff14;
+            --neon-green-glow-1: #8aff70;
+            --neon-blue: #4d4dff;
+            --neon-blue-glow-1: #8585ff;
+
+            /* Base Font */
+            --font-family-main: 'Exo 2', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #282828; /* Dark grey background behind phone */
+            font-family: var(--font-family-main);
+        }
+
+        .phone {
+            width: 375px;
+            height: 812px;
+            background-color: var(--phone-bg);
+            border-radius: 45px; /* Slightly more rounded */
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.6);
+            overflow: hidden;
+            position: relative;
+            border: 12px solid var(--phone-bezel);
+        }
+
+        .screen {
+            width: 100%;
+            height: 100%;
+            /* Smoother gradient */
+            background: linear-gradient(170deg, var(--bg-gradient-start) 0%, #2c1b3e 50%, var(--bg-gradient-end) 100%);
+            padding: 15px 20px;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none;  /* IE and Edge */
+        }
+
+        .screen::-webkit-scrollbar {
+             display: none; /* Chrome, Safari, Opera */
+        }
+
+        /* --- Neon Effect Helpers --- */
+        /* Base style for all neon text */
+        .neon-text {
+             text-shadow: 0 0 1px rgba(255, 255, 255, 0.3); /* Subtle inner highlight */
+        }
+
+        .neon-text-orange {
+            color: var(--neon-orange);
+            text-shadow:
+                0 0 2px rgba(255, 255, 255, 0.4), /* Inner whiteish */
+                0 0 5px var(--neon-orange),
+                0 0 10px var(--neon-orange),
+                0 0 15px var(--neon-orange-glow-1),
+                0 0 20px var(--neon-orange-glow-2);
+        }
+        .neon-text-pink {
+            color: var(--neon-pink);
+             text-shadow:
+                0 0 2px rgba(255, 255, 255, 0.4),
+                0 0 5px var(--neon-pink),
+                0 0 10px var(--neon-pink),
+                0 0 15px var(--neon-pink-glow-1),
+                0 0 20px var(--neon-pink-glow-2);
+        }
+        .neon-text-red {
+             color: var(--neon-red);
+             text-shadow:
+                0 0 2px rgba(255, 255, 255, 0.3),
+                0 0 4px var(--neon-red),
+                0 0 8px var(--neon-red),
+                0 0 12px var(--neon-red-glow-1);
+        }
+        .neon-text-cyan {
+            color: var(--neon-cyan);
+             text-shadow:
+                0 0 2px rgba(255, 255, 255, 0.5),
+                0 0 6px var(--neon-cyan),
+                0 0 12px var(--neon-cyan),
+                0 0 18px var(--neon-cyan-glow-1);
+        }
+        .neon-text-green {
+            color: var(--neon-green);
+             text-shadow:
+                0 0 2px rgba(255, 255, 255, 0.4),
+                0 0 6px var(--neon-green),
+                0 0 12px var(--neon-green),
+                0 0 18px var(--neon-green-glow-1);
+        }
+        .neon-text-blue {
+            color: var(--neon-blue);
+             text-shadow:
+                0 0 2px rgba(255, 255, 255, 0.4),
+                0 0 5px var(--neon-blue),
+                0 0 10px var(--neon-blue),
+                0 0 15px var(--neon-blue-glow-1);
+        }
+
+        /* Neon filter for SVGs/elements */
+        .neon-filter-orange {
+            filter:
+                drop-shadow(0 0 1px rgba(255, 255, 255, 0.5))
+                drop-shadow(0 0 3px var(--neon-orange))
+                drop-shadow(0 0 6px var(--neon-orange-glow-1))
+                drop-shadow(0 0 10px var(--neon-orange-glow-2));
+        }
+         .neon-filter-pink {
+            filter:
+                drop-shadow(0 0 1px rgba(255, 255, 255, 0.5))
+                drop-shadow(0 0 3px var(--neon-pink))
+                drop-shadow(0 0 6px var(--neon-pink-glow-1));
+        }
+         .neon-filter-blue {
+            filter:
+                drop-shadow(0 0 1px rgba(255, 255, 255, 0.5))
+                drop-shadow(0 0 3px var(--neon-blue))
+                drop-shadow(0 0 6px var(--neon-blue-glow-1));
+        }
+         .neon-filter-green {
+             filter:
+                drop-shadow(0 0 2px var(--neon-green))
+                drop-shadow(0 0 5px var(--neon-green-glow-1))
+                drop-shadow(0 0 10px var(--neon-green-glow-1));
+         }
+
+         /* Neon Box Shadow */
+        .neon-shadow-orange {
+             box-shadow:
+                0 0 1px rgba(255, 255, 255, 0.4), /* Inner edge */
+                0 0 4px var(--neon-orange),
+                0 0 8px var(--neon-orange-glow-1),
+                0 0 12px var(--neon-orange-glow-2),
+                /* Subtle inner glow */
+                inset 0 0 3px rgba(255, 127, 0, 0.3);
+        }
+         .neon-shadow-red {
+             box-shadow:
+                0 0 1px rgba(255, 255, 255, 0.2),
+                0 0 3px var(--neon-red),
+                0 0 6px var(--neon-red-glow-1),
+                inset 0 0 2px rgba(255, 65, 54, 0.3);
+        }
+
+        /* --- Status Bar --- */
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 5px 5px 20px 5px; /* Adjusted padding */
+            font-size: 15px;
+            font-weight: 600; /* Slightly bolder time */
+        }
+
+        .status-bar .time {
+            /* Inherits neon-text-orange */
+        }
+
+        .status-bar .controls {
+            display: flex;
+            gap: 10px; /* Increased gap */
+        }
+
+        .status-bar .triangle {
+            width: 0;
+            height: 0;
+            border-top: 6px solid transparent;   /* Adjusted size slightly */
+            border-bottom: 6px solid transparent;
+        }
+
+        .status-bar .triangle-left {
+            border-right: 11px solid var(--neon-pink); /* Adjusted size */
+            /* Apply filter for glow */
+            filter:
+                drop-shadow(0 0 1px rgba(255, 255, 255, 0.5))
+                drop-shadow(0 0 3px var(--neon-pink))
+                drop-shadow(0 0 6px var(--neon-pink-glow-1));
+        }
+
+        .status-bar .triangle-right {
+            border-left: 11px solid var(--neon-blue); /* Adjusted size */
+            /* Apply filter for glow */
+             filter:
+                drop-shadow(0 0 1px rgba(255, 255, 255, 0.5))
+                drop-shadow(0 0 3px var(--neon-blue))
+                drop-shadow(0 0 6px var(--neon-blue-glow-1));
+        }
+
+        /* --- Top Navigation --- */
+        .top-nav {
+            display: flex;
+            align-items: center;
+            margin-bottom: 28px; /* Increased spacing */
+            gap: 18px; /* Space between arrow and logo */
+        }
+
+        .back-arrow {
+            font-size: 30px; /* Larger arrow */
+            line-height: 1;
+            font-weight: 400; /* Thinner arrow */
+        }
+
+        .logo {
+            width: 42px; /* Slightly larger */
+            height: 42px;
+            position: relative;
+            transform: rotate(45deg);
+        }
+        .logo svg {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            transform: rotate(-45deg);
+            filter: var(--neon-filter-orange); /* Use filter variable */
+            overflow: visible;
+        }
+        .logo svg path {
+             stroke: var(--neon-orange);
+             stroke-width: 2; /* Slightly thinner line */
+             fill: none;
+        }
+         .logo svg text {
+             fill: var(--neon-orange);
+             font-size: 24px; /* Larger M */
+             font-weight: 600; /* Bolder M */
+             text-anchor: middle;
+             dominant-baseline: central;
+             transform: translateY(1px); /* Fine-tune position */
+             /* Apply text shadow directly for better control inside SVG */
+             text-shadow:
+                0 0 1px rgba(255, 255, 255, 0.4),
+                0 0 3px var(--neon-orange),
+                0 0 6px var(--neon-orange-glow-1);
+         }
+
+
+        /* --- Fund Info --- */
+        .fund-info {
+            margin-bottom: 20px; /* Increased spacing */
+        }
+
+        .fund-info h1 {
+            font-size: 23px; /* Slightly larger */
+            font-weight: 600;
+            line-height: 1.3;
+            margin-bottom: 4px;
+        }
+         .fund-info h2 {
+            font-size: 19px; /* Slightly larger */
+            font-weight: 500;
+            line-height: 1.3;
+            margin-bottom: 18px; /* Increased spacing */
+        }
+
+        .tags span {
+            display: inline-block;
+            font-size: 12px;
+            font-weight: 500; /* Slightly bolder tags */
+            padding: 5px 12px; /* Adjusted padding */
+            border: 1px solid var(--neon-red);
+            border-radius: 15px;
+            margin-right: 10px;
+            margin-bottom: 5px; /* Allow wrapping */
+            /* Apply neon shadow */
+            box-shadow: var(--neon-shadow-red);
+        }
+
+        /* --- Performance --- */
+        .performance {
+            margin-bottom: 18px; /* Increased spacing */
+        }
+
+        .performance .main-percentage {
+            font-size: 42px; /* Larger percentage */
+            font-weight: 700; /* Boldest */
+            display: inline-block;
+            margin-right: 10px;
+            line-height: 1.1; /* Adjust line height */
+        }
+
+        .performance .annotation {
+            font-size: 14px;
+            font-weight: 500;
+            display: inline-block;
+            vertical-align: baseline;
+            padding-bottom: 5px; /* Align better with baseline */
+        }
+
+        .performance .daily-change {
+            font-size: 17px; /* Slightly larger */
+            font-weight: 500;
+            margin-top: 8px; /* Increased spacing */
+        }
+        .performance .daily-change .arrow {
+            display: inline-block;
+            transform: translateY(1px);
+            margin-right: 2px; /* Space after arrow */
+        }
+
+        /* --- Graph Area --- */
+        .graph-area {
+            width: 100%;
+            height: 160px; /* Slightly taller graph */
+            margin-bottom: 25px; /* Increased spacing */
+            position: relative;
+        }
+
+        .graph-area svg {
+            width: 100%;
+            height: 100%;
+            overflow: visible;
+        }
+
+        .graph-line {
+            fill: none;
+            stroke: var(--neon-green);
+            stroke-width: 2.5; /* Good thickness */
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            filter: var(--neon-filter-green); /* Use filter variable */
+        }
+
+        /* --- Timeframe Selector --- */
+        .timeframe-selector {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px; /* Increased spacing */
+            padding: 0 2px;
+        }
+
+        .timeframe-selector span {
+            font-size: 14px;
+            font-weight: 500;
+            padding: 6px 0; /* Vertical padding */
+            width: 40px; /* Fixed width for better spacing */
+            text-align: center;
+            border: 1.5px solid transparent; /* Thicker border placeholder */
+            border-radius: 18px; /* More rounded */
+            cursor: pointer;
+            transition: all 0.25s ease-in-out;
+            background-color: transparent; /* Ensure no default bg */
+        }
+
+        .timeframe-selector span.active {
+            border-color: var(--neon-orange);
+            background-color: rgba(255, 127, 0, 0.1); /* Subtler background */
+            /* Apply neon shadow */
+            box-shadow: var(--neon-shadow-orange);
+            /* Ensure text color remains strong */
+            color: var(--neon-orange);
+             text-shadow:
+                0 0 2px rgba(255, 255, 255, 0.4),
+                0 0 5px var(--neon-orange),
+                0 0 10px var(--neon-orange),
+                0 0 15px var(--neon-orange-glow-1);
+        }
+
+        /* --- Overview Section --- */
+        .overview {
+            border: 1.5px solid var(--neon-orange); /* Slightly thicker */
+            border-radius: 18px; /* More rounded */
+            padding: 18px; /* Increased padding */
+             /* Apply neon shadow */
+            box-shadow: var(--neon-shadow-orange);
+            margin-bottom: 20px; /* Space at the bottom */
+        }
+
+        .overview h3 {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 18px; /* Increased spacing */
+            text-transform: uppercase;
+            letter-spacing: 1.2px; /* More spacing */
+        }
+
+        .overview p {
+            font-size: 16px; /* Slightly larger text */
+            font-weight: 500;
+            line-height: 1.6; /* More line spacing */
+        }
+         .overview p:first-of-type {
+             margin-bottom: 10px; /* Increased spacing */
+         }
+
+    </style>
+</head>
+<body>
+    <div class="phone">
+        <div class="screen">
+            <!-- Status Bar -->
+            <div class="status-bar">
+                <span class="time neon-text neon-text-orange">10:00</span>
+                <div class="controls">
+                    <span class="triangle triangle-left"></span>
+                    <span class="triangle triangle-right"></span>
+                </div>
+            </div>
+
+            <!-- Top Navigation -->
+            <div class="top-nav">
+                <span class="back-arrow neon-text neon-text-pink">←</span>
+                <div class="logo">
+                    <svg viewBox="-2 -2 44 44" preserveAspectRatio="xMidYMid meet">
+                        <path d="M20 0 L40 20 L20 40 L0 20 Z" />
+                        <text x="20" y="21">M</text> <!-- Adjusted Y position -->
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Fund Info -->
+            <div class="fund-info">
+                <h1 class="neon-text neon-text-cyan">Nippon India Sensex Fund</h1>
+                <h2 class="neon-text neon-text-cyan">GenNext Direct Growth</h2>
+                <div class="tags">
+                    <span class="neon-text neon-text-red">Equity</span>
+                    <span class="neon-text neon-text-red">Large cap</span>
+                    <span class="neon-text neon-text-red">High risk</span>
+                </div>
+            </div>
+
+            <!-- Performance -->
+            <div class="performance">
+                <div>
+                    <span class="main-percentage neon-text neon-text-green">16.32%</span>
+                    <span class="annotation neon-text neon-text-orange">3Y annualised</span>
+                </div>
+                <div class="daily-change neon-text neon-text-orange">
+                    <span class="arrow">↑</span>0,55% 1D
+                </div>
+            </div>
+
+            <!-- Graph Area -->
+            <div class="graph-area">
+                <svg viewBox="0 0 300 100" preserveAspectRatio="none">
+                    <!-- Same approximate path -->
+                    <path class="graph-line" d="M 0 75 C 20 85, 30 50, 50 60 S 70 80, 90 70 S 110 50, 130 55 S 150 85, 170 80 S 190 40, 210 45 S 230 65, 250 55 S 270 30, 280 35 L 300 20" />
+                </svg>
+            </div>
+
+            <!-- Timeframe Selector -->
+            <div class="timeframe-selector">
+                <span class="neon-text neon-text-orange active" data-tf="1D">1D</span>
+                <span class="neon-text neon-text-orange" data-tf="3M">3M</span>
+                <span class="neon-text neon-text-orange" data-tf="6M">6M</span>
+                <span class="neon-text neon-text-orange" data-tf="1Y">1Y</span>
+                <span class="neon-text neon-text-orange" data-tf="5Y">5Y</span>
+                <span class="neon-text neon-text-orange" data-tf="All">All</span>
+            </div>
+
+            <!-- Overview Section -->
+            <div class="overview">
+                <h3 class="neon-text neon-text-blue">Overview</h3>
+                <p class="neon-text neon-text-green">Portfolio change +7% this week</p>
+                <p class="neon-text neon-text-green">1D returns +₹906.06 (0,5%)</p>
+            </div>
+
+        </div> <!-- /screen -->
+    </div> <!-- /phone -->
+
+    <script>
+        const timeframeButtons = document.querySelectorAll('.timeframe-selector span');
+
+        timeframeButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Remove active class from all buttons
+                timeframeButtons.forEach(btn => btn.classList.remove('active'));
+                // Add active class to the clicked button
+                button.classList.add('active');
+
+                console.log("Selected timeframe:", button.dataset.tf);
+                // Future: Update graph data based on timeframe
+            });
+        });
+    </script>
+
+</body>
+</html>
